@@ -1,0 +1,83 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <title>My To-Do App</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'tasks/style.css' %}"
+    />
+  </head>
+
+  <body>
+    <!-- Auth Bar -->
+    <div class="auth-bar">
+      {% if user.is_authenticated %}
+      <span>Hi {{ user.username }}, Welcome!</span>
+      <a href="{% url 'logout' %}">Logout</a>
+      {% else %}
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'signup' %}">Sign up</a>
+      {% endif %}
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+      <h1>My To-Do List</h1>
+
+      <!-- Demo Button (Centered) -->
+      <div class="demo-link">
+        <a href="{% url 'demo_tasks' %}">Try Demo</a>
+      </div>
+
+      <!-- Add Task Form -->
+      {% if user.is_authenticated %}
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="id_title">Task:</label>
+          <input
+            type="text"
+            name="title"
+            id="id_title"
+            placeholder="Enter task title"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="id_completed">Completed:</label>
+          <input type="checkbox" name="completed" id="id_completed" />
+        </div>
+        <button type="submit">Add Task</button>
+      </form>
+      {% else %}
+      <p style="text-align:center; font-style:italic; margin-bottom: 20px;">
+        Login to create your own tasks!
+      </p>
+      {% endif %}
+
+      <!-- Task List -->
+      <ul>
+        {% for task in tasks %}
+        <li class="task-item">
+          {% if task.completed %}
+          <s>{{ task.title }}</s>
+          {% else %}
+          {{ task.title }}
+          {% endif %}
+
+          <div>
+            <a href="{% url 'complete_task' task.id %}">
+              {% if task.completed %}Undo{% else %}Complete{% endif %}
+            </a>
+            <a href="{% url 'delete_task' task.id %}" class="delete">Delete</a>
+          </div>
+        </li>
+        {% empty %}
+        <li>No tasks yet!</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>

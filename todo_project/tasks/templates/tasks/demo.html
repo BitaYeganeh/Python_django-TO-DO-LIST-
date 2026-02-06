@@ -1,0 +1,25 @@
+{% extends 'tasks/task_list.html' %}
+
+{% block content %}
+<h2>Welcome to the Demo 👋</h2>
+<p>This app uses Django. Sign up to create your own tasks!</p>
+
+<ul>
+  {% for task in tasks %}
+  <li class="demo-task">
+    {% if task.completed %}
+      <s>{{ task.title }}</s>
+    {% else %}
+      {{ task.title }}
+    {% endif %}
+  </li>
+  {% empty %}
+  <li>No demo tasks yet!</li>
+  {% endfor %}
+</ul>
+
+<p>
+  <a href="{% url 'signup' %}">Sign up</a> or
+  <a href="{% url 'login' %}">Login</a> to create your own tasks!
+</p>
+{% endblock %}

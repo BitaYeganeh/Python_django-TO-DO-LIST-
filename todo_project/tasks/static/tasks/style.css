@@ -1,0 +1,197 @@
+/* General container */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+.auth-bar {
+  position: fixed; /* stick to viewport */
+  top: 2rem;
+  right: 3rem; /* distance from the right edge of the page */
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  /*add rainbow background*/
+  background-color: rainbow; /* fallback for unsupported browsers */
+  background-image: linear-gradient(
+    45deg,
+    rgb(26, 255, 0),
+    rgb(240, 166, 29),
+    yellow,
+    violet
+  );
+  border: 2px solid black; /* ← add this line */
+  color: #100cd7;
+  padding: 8px 15px; /* optional padding */
+  border-radius: 5px; /* optional styling */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* optional */
+  z-index: 1000; /* ensure it’s on top */
+}
+.auth-bar a {
+  margin-left: 10px;
+  text-decoration: none;
+  font-weight: 800;
+  color: #100cd7;
+}
+.auth-bar a:hover {
+  text-decoration: underline;
+  color: red;
+}
+.demo-link {
+  position: absolute;
+  top: 4.5rem;
+  right: 9rem;
+}
+
+.demo-link a {
+  padding: 8px 15px;
+  background-color: rainbow; /* fallback for unsupported browsers */
+  background-image: linear-gradient(
+    45deg,
+    rgb(26, 255, 0),
+    rgb(240, 166, 29),
+    yellow,
+    violet
+  );
+  color: #100cd7;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 800;
+    border: 2px solid black; /* ← add this line */
+}
+
+.demo-link a:hover {
+  background-color: #d35400;
+}
+.container {
+  position: relative;
+  max-width: 800px;
+  margin: 100px auto 40px; /* add top margin to avoid auth bar */
+  padding: 40px 20px;
+  background-color: rgb(239, 239, 225);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(235, 216, 16, 0.1);
+}
+
+/* Headings */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.demo-task {
+  background-color: #f0f8ff;
+  border: 1px dashed #3498db;
+  padding: 8px;
+  margin-bottom: 6px;
+  border-radius: 5px;
+}
+
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+form input[type="text"] {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+form input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+form button {
+  width: 120px;
+  padding: 8px;
+  font-size: 16px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color 0.2s;
+}
+
+form button:hover {
+  background-color: #2980b9;
+}
+
+/* Task list */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center; /* vertical alignment */
+  justify-content: space-between; /* space between task title and buttons */
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+}
+
+/* Task title */
+.task-item s {
+  color: gray; /* completed tasks */
+}
+
+.task-item span {
+  flex-grow: 1; /* take remaining space */
+  margin-left: 10px;
+}
+
+/* Buttons container */
+.task-item div {
+  display: flex;
+  gap: 10px;
+}
+
+/* Links styling */
+.task-item a {
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  color: #333;
+}
+
+.task-item a:hover {
+  background-color: #eee;
+}
+
+/* Delete button */
+.task-item a.delete {
+  color: white;
+  background-color: #e74c3c;
+}
+
+.task-item a.delete:hover {
+  background-color: #c0392b;
+}
+
+/* Complete/Undo button styling */
+.task-item a:first-child {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.task-item a:first-child:hover {
+  background-color: #27ae60;
+}
