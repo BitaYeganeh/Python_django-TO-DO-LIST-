@@ -134,6 +134,28 @@ ul {
   padding: 0;
   margin: 0;
 }
+.messages {
+  margin: 15px auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+.alert {
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.alert-warning {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.alert-success {
+  background: #d4edda;
+  color: #155724;
+}
+
 
 .task-item {
   display: flex;
