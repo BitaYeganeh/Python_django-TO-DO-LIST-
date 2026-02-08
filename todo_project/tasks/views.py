@@ -79,4 +79,7 @@ def signup(request):
 def demo_tasks(request):
     demo_user = User.objects.get(username='demo_user')
     tasks = Task.objects.filter(user=demo_user)
-    return render(request, 'tasks/demo.html', {'tasks': tasks})
+    return render(request, 'tasks/demo.html', {
+        'tasks': tasks,
+        'demo': True
+        })

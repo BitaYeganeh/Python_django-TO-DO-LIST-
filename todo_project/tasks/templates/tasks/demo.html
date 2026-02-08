@@ -13,9 +13,11 @@
       {{ task.title }}
     {% endif %}
   </li>
-  {% empty %}
-  <li>No demo tasks yet!</li>
-  {% endfor %}
+{% empty %}
+  <li style="text-align:center; font-style: italic;">
+    No demo tasks yet!
+  </li>
+{% endfor %}
 </ul>
 
 <p>

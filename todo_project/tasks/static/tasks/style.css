@@ -41,10 +41,12 @@ body {
   color: red;
 }
 .demo-link {
-  position: absolute;
-  top: 4.5rem;
-  right: 9rem;
-}
+position: relative;       /* normal flow */
+  margin: 15px 0 30px;     /* space below the title */
+  text-align: center;       /* center buttons */
+  display: flex;
+  justify-content: center;
+  gap: 10px;                /* space between buttons */}
 
 .demo-link a {
   padding: 8px 15px;
@@ -216,4 +218,85 @@ ul {
 
 .task-item a:first-child:hover {
   background-color: #27ae60;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  /* auth bar */
+  .auth-bar {
+    position: static;              /* stop fixed overlay */
+    margin: 15px auto;
+    width: fit-content;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
+  } 
+  .demo-link {
+    position: static;
+    margin: 10px auto 0;
+    text-align: center; 
+   }
+   /* Main container */
+  .container {
+    margin: 30px 10px;
+    padding: 20px 15px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  /* Form */
+  form {
+    gap: 8px;
+  }
+
+  form input[type="text"] {
+    font-size: 14px;
+  }
+   form button {
+    width: 100%;
+    align-self: stretch;
+  }
+
+  /* Task items */
+  .task-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .task-item span {
+    margin-left: 0;
+    width: 100%;
+    word-break: break-word;
+  }
+   /* Buttons */
+  .task-item div {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .task-item a {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+}
+/* Extra small screens */
+@media (max-width: 400px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  .auth-bar {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .task-item a {
+    font-size: 12px;
+  }
 }

@@ -1,7 +1,12 @@
-{% load static %}
+
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    {% load static %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
     <title>My To-Do App</title>
     <link
       rel="stylesheet"
@@ -42,6 +47,10 @@
       <!-- Demo Button -->
       <div class="demo-link">
         <a href="{% url 'demo_tasks' %}">Try Demo</a>
+
+        {% if user.is_authenticated %}
+          <a href="{% url 'task_list' %}">My own Tasks</a>
+        {% endif %}
       </div>
 
       <!-- Add Task Form -->
@@ -100,7 +109,12 @@
           </div>
         </li>
         {% empty %}
-        <li>No tasks yet!</li>
+        {% if demo %}
+        <li style="text-align:center; font-style: italic;">No demo tasks yet!</li>
+
+        {% else %}
+        <li style="text-align:center; font-style: italic;">You have no tasks added yet!</li>
+        {% endif %}
         {% endfor %}
       </ul>
     </div>
