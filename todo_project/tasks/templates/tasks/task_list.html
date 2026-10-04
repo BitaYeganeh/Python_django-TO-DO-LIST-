@@ -15,6 +15,7 @@
     />
 
     <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{% static 'tasks/actions.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
@@ -103,8 +104,14 @@
                   confirmButtonText: 'Ok'
               }); return false;" class="delete">Delete</a>
             {% else %}
-              <a href="{% url 'complete_task' task.id %}">Complete</a>
-              <a href="{% url 'delete_task' task.id %}" class="delete">Delete</a>
+              <form method="post" action="{% url 'complete_task' task.id %}" class="task-action">
+                {% csrf_token %}
+                <button type="submit" class="link-button">Complete</button>
+              </form>
+              <form method="post" action="{% url 'delete_task' task.id %}" class="task-action">
+                {% csrf_token %}
+                <button type="submit" class="link-button delete">Delete</button>
+              </form>
             {% endif %}
           </div>
         </li>
