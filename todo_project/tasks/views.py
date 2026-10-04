@@ -2,9 +2,14 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404    
 from .models import Task
 from .forms import TaskForm
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.views.decorators.http import require_POST
+
+
+def demo_task_list():
+    # Demo tasks; empty (instead of a crash) when no demo_user exists yet
+    return Task.objects.filter(user__username='demo_user')
 
 def task_list(request):
     # 🟢 LOGGED-IN USER MODE
@@ -29,8 +34,7 @@ def task_list(request):
         })
 
     # 🔵 DEMO MODE (NOT LOGGED IN)
-    demo_user = User.objects.get(username='demo_user')
-    tasks = Task.objects.filter(user=demo_user)
+    tasks = demo_task_list()
 
     return render(request, 'tasks/task_list.html', {
         'tasks': tasks,
@@ -38,7 +42,8 @@ def task_list(request):
     })
 
 
-# Complete a task
+# Complete a task (POST only: a plain link must never change data)
+@require_POST
 def complete_task(request, task_id):
     if not request.user.is_authenticated or request.user.username == "demo_user":
         messages.warning(request, "You need to sign up to edit tasks.")
@@ -51,7 +56,8 @@ def complete_task(request, task_id):
     return redirect('task_list')
 
 
-# Delete a task
+# Delete a task (POST only: a plain link must never delete data)
+@require_POST
 def delete_task(request, task_id):
     if not request.user.is_authenticated or request.user.username == "demo_user":
         messages.warning(request, "You need to sign up to delete tasks.")
@@ -77,8 +83,7 @@ def signup(request):
 
 
 def demo_tasks(request):
-    demo_user = User.objects.get(username='demo_user')
-    tasks = Task.objects.filter(user=demo_user)
+    tasks = demo_task_list()
     return render(request, 'tasks/demo.html', {
         'tasks': tasks,
         'demo': True
