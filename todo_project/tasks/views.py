@@ -9,7 +9,7 @@ from django.views.decorators.http import require_POST
 
 def demo_task_list():
     # Demo tasks; empty (instead of a crash) when no demo_user exists yet
-    return Task.objects.filter(user__username='demo_user')
+    return Task.objects.filter(user__username='demo_user').order_by('completed', 'created_at')
 
 def task_list(request):
     # 🟢 LOGGED-IN USER MODE
@@ -25,10 +25,12 @@ def task_list(request):
         else:
             form = TaskForm()
 
-        tasks = Task.objects.filter(user=request.user)
+        # Open tasks first, then finished ones
+        tasks = Task.objects.filter(user=request.user).order_by('completed', 'created_at')
 
         return render(request, 'tasks/task_list.html', {
             'tasks': tasks,
+            'done_count': tasks.filter(completed=True).count(),
             'form': form,
             'demo': False
         })
@@ -38,6 +40,7 @@ def task_list(request):
 
     return render(request, 'tasks/task_list.html', {
         'tasks': tasks,
+        'done_count': tasks.filter(completed=True).count(),
         'demo': True
     })
 
@@ -86,5 +89,6 @@ def demo_tasks(request):
     tasks = demo_task_list()
     return render(request, 'tasks/demo.html', {
         'tasks': tasks,
+        'done_count': tasks.filter(completed=True).count(),
         'demo': True
         })

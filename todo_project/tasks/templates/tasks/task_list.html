@@ -1,129 +1,124 @@
+{% extends 'base.html' %}
 
-<!doctype html>
-<html lang="en">
-  <head>
-    {% load static %}
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
-    <title>My To-Do App</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'tasks/style.css' %}"
-    />
-
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{% static 'tasks/actions.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  </head>
-
-  <body>
-    <!-- Auth Bar -->
-    <div class="auth-bar">
-      {% if user.is_authenticated %}
-      <span>Hi {{ user.username }}, Welcome!</span>
-      <a href="{% url 'logout' %}">Logout</a>
-      {% else %}
-      <a href="{% url 'login' %}">Login</a>
-      <a href="{% url 'signup' %}">Sign up</a>
-      {% endif %}
+{% block content %}
+<section class="card">
+  <div class="card__header">
+    <div>
+      <h1 class="card__title">{% if demo %}Demo list{% else %}My tasks{% endif %}</h1>
+      {% with total=tasks|length %}
+        <p class="card__meta">
+          {% if total %}
+            {{ done_count }} of {{ total }} done
+          {% else %}
+            Nothing here yet
+          {% endif %}
+        </p>
+      {% endwith %}
     </div>
-
-    <!-- Messages (optional, still shows flash) -->
-    {% if messages %}
-      <div class="messages">
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-        {% endfor %}
+    {% if tasks|length %}
+      <div class="progress" aria-hidden="true">
+        <span class="progress__bar" style="width: {% widthratio done_count tasks|length 100 %}%"></span>
       </div>
     {% endif %}
+  </div>
 
-    <!-- Main Container -->
-    <div class="container">
-      <h1>My To-Do List</h1>
-
-      <!-- Demo Button -->
-      <div class="demo-link">
-        <a href="{% url 'demo_tasks' %}">Try Demo</a>
-
+  {% if demo %}
+    <div class="banner">
+      <p>
+        <strong>You're viewing the demo.</strong>
         {% if user.is_authenticated %}
-          <a href="{% url 'task_list' %}">My own Tasks</a>
+          These tasks are read-only.
+          <a href="{% url 'task_list' %}">Back to my tasks</a>
+        {% else %}
+          Sign up to create and manage your own list.
         {% endif %}
-      </div>
-
-      <!-- Add Task Form -->
-      {% if user.is_authenticated and not demo %}
-      <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="id_title">Task:</label>
-          <input type="text" name="title" id="id_title" placeholder="Enter task title" required />
-        </div>
-        <div class="form-group">
-          <label for="id_completed">Completed:</label>
-          <input type="checkbox" name="completed" id="id_completed" />
-        </div>
-        <button type="submit">Add Task</button>
-      </form>
-      {% elif demo %}
-      <p style="text-align:center; font-style:italic;">
-        Demo mode — sign up to create your own tasks ✨
       </p>
-      {% else %}
-      <p style="text-align:center; font-style:italic;">
-        Login to create your own tasks!
-      </p>
+      {% if not user.is_authenticated %}
+        <a href="{% url 'signup' %}" class="btn btn--primary">Create my list</a>
       {% endif %}
+    </div>
+  {% else %}
+    <form method="post" class="add-form">
+      {% csrf_token %}
+      <label for="id_title" class="visually-hidden">New task</label>
+      <input type="text" name="title" id="id_title" maxlength="200" placeholder="Add a task…" autocomplete="off" required />
+      <label for="id_description" class="visually-hidden">Note (optional)</label>
+      <input type="text" name="description" id="id_description" placeholder="Note (optional)" autocomplete="off" class="add-form__note" />
+      <button type="submit" class="btn btn--primary">Add</button>
+    </form>
+    {% if form.title.errors %}
+      <p class="field-error">{{ form.title.errors|first }}</p>
+    {% endif %}
+  {% endif %}
 
-      <!-- Task List -->
-      <ul>
-        {% for task in tasks %}
-        <li class="task-item">
-          {% if task.completed %}
-            <s>{{ task.title }}</s>
+  {% if tasks %}
+    <ul class="task-list">
+      {% for task in tasks %}
+        <li class="task{% if task.completed %} task--done{% endif %}">
+          {% if demo %}
+            <button type="button" class="check" data-demo-action aria-label="Mark “{{ task.title }}” as {% if task.completed %}not done{% else %}done{% endif %}">
+              {% if task.completed %}✓{% endif %}
+            </button>
           {% else %}
-            {{ task.title }}
+            <form method="post" action="{% url 'complete_task' task.id %}" class="inline-form">
+              {% csrf_token %}
+              <button type="submit" class="check" aria-label="Mark “{{ task.title }}” as {% if task.completed %}not done{% else %}done{% endif %}">
+                {% if task.completed %}✓{% endif %}
+              </button>
+            </form>
           {% endif %}
 
-          <div>
-            {% if demo or not user.is_authenticated %}
-              <a href="#" onclick="Swal.fire({
-                  icon: 'warning',
-                  title: 'Action blocked!',
-                  text: 'You need to sign up to edit tasks!',
-                  confirmButtonText: 'Ok'
-              }); return false;">Complete</a>
-
-              <a href="#" onclick="Swal.fire({
-                  icon: 'warning',
-                  title: 'Action blocked!',
-                  text: 'You need to sign up to delete tasks!',
-                  confirmButtonText: 'Ok'
-              }); return false;" class="delete">Delete</a>
-            {% else %}
-              <form method="post" action="{% url 'complete_task' task.id %}" class="task-action">
-                {% csrf_token %}
-                <button type="submit" class="link-button">Complete</button>
-              </form>
-              <form method="post" action="{% url 'delete_task' task.id %}" class="task-action">
-                {% csrf_token %}
-                <button type="submit" class="link-button delete">Delete</button>
-              </form>
+          <div class="task__text">
+            <span class="task__title">{{ task.title }}</span>
+            {% if task.description %}
+              <span class="task__note">{{ task.description }}</span>
             {% endif %}
           </div>
-        </li>
-        {% empty %}
-        {% if demo %}
-        <li style="text-align:center; font-style: italic;">No demo tasks yet!</li>
 
-        {% else %}
-        <li style="text-align:center; font-style: italic;">You have no tasks added yet!</li>
-        {% endif %}
-        {% endfor %}
-      </ul>
+          {% if demo %}
+            <button type="button" class="icon-btn" data-demo-action aria-label="Delete “{{ task.title }}”">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M10 11v6M14 11v6"/></svg>
+            </button>
+          {% else %}
+            <form method="post" action="{% url 'delete_task' task.id %}" class="inline-form" onsubmit="return confirm('Delete “{{ task.title|escapejs }}”?');">
+              {% csrf_token %}
+              <button type="submit" class="icon-btn" aria-label="Delete “{{ task.title }}”">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M10 11v6M14 11v6"/></svg>
+              </button>
+            </form>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="empty">
+      <p class="empty__icon" aria-hidden="true">📝</p>
+      {% if demo %}
+        <p>No demo tasks yet.</p>
+      {% else %}
+        <p><strong>No tasks yet.</strong> Add your first one above.</p>
+      {% endif %}
     </div>
-  </body>
-</html>
+  {% endif %}
+</section>
+
+{% if demo %}
+  <p class="toast" id="demo-toast" role="status" hidden>
+    The demo is read-only. <a href="{% url 'signup' %}">Sign up</a> to edit your own tasks.
+  </p>
+  <script>
+    // Demo buttons explain why nothing happens instead of failing silently
+    (function () {
+      var toast = document.getElementById('demo-toast');
+      var timer;
+      document.querySelectorAll('[data-demo-action]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          toast.hidden = false;
+          clearTimeout(timer);
+          timer = setTimeout(function () { toast.hidden = true; }, 3500);
+        });
+      });
+    })();
+  </script>
+{% endif %}
+{% endblock %}

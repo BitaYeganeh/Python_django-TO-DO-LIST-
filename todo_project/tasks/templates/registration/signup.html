@@ -1,19 +1,17 @@
-<!dotype html>
-<html lang="en">
-  <head>
-    <!doctype html>
+{% extends 'base.html' %}
+{% block title %}Sign up · My To-Do App{% endblock %}
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sign Up</title>
-  </head>
-  <body>
-    <h2>Create Your Account</h2>
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">Sign Up</button>
-    </form>
+{% block content %}
+<section class="card card--narrow">
+  <h1 class="card__title">Create your account</h1>
+  <p class="card__meta">Free, and only takes a few seconds.</p>
 
-    <p>Already have an account? <a href="{% url 'login' %}">Log in here</a>.</p>
-  </body>
-</html>
+  <form method="post" class="auth-form">
+    {% csrf_token %}
+    {% include 'registration/_form_fields.html' %}
+    <button type="submit" class="btn btn--primary btn--block">Sign up</button>
+  </form>
+
+  <p class="auth-switch">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+</section>
+{% endblock %}

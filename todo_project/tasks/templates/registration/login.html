@@ -1,22 +1,28 @@
-<!dotype html>
-<html lang="en">
-  <head>
-    <!doctype html>
+{% extends 'base.html' %}
+{% block title %}Log in · My To-Do App{% endblock %}
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Login</title>
-  </head>
-  <body>
-    <h2>Login</h2>
+{% block content %}
+<section class="card card--narrow">
+  <h1 class="card__title">Welcome back</h1>
+  <p class="card__meta">Log in to see your tasks.</p>
 
+  <form method="post" class="auth-form">
+    {% csrf_token %}
     {% if form.errors %}
-    <p style="color: red">Invalid username or password</p>
+      <p class="alert alert--error" role="alert">Wrong username or password. Please try again.</p>
     {% endif %}
+    <div class="field">
+      <label for="id_username">Username</label>
+      <input type="text" name="username" id="id_username" autocomplete="username" value="{{ form.username.value|default_if_none:'' }}" required autofocus />
+    </div>
+    <div class="field">
+      <label for="id_password">Password</label>
+      <input type="password" name="password" id="id_password" autocomplete="current-password" required />
+    </div>
+    <input type="hidden" name="next" value="{{ next }}" />
+    <button type="submit" class="btn btn--primary btn--block">Log in</button>
+  </form>
 
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">Login</button>
-    </form>
-  </body>
-</html>
+  <p class="auth-switch">New here? <a href="{% url 'signup' %}">Create an account</a> · <a href="{% url 'demo_tasks' %}">Try the demo</a></p>
+</section>
+{% endblock %}
