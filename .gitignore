@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 
-# Virtual environments (recreate with: python -m venv venv && pip install -r requirements.txt)
+# Virtual environments (recreate with: python3 -m venv .venv && pip install -r requirements.txt)
 venv/
 .venv/
 todo_project/venv/

@@ -46,11 +46,14 @@ A simple and interactive **To-Do List web application** built with Django. Users
 ### Run it locally
 
 ```bash
-python -m venv venv
-source venv/bin/activate
+python3 -m venv .venv              # Windows: py -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 cd todo_project
 python manage.py migrate
-python manage.py test tasks
+python manage.py seed_demo         # adds the demo user and demo tasks
+python manage.py test tasks        # runs the 22 tests
 python manage.py runserver
 ```
+
+Then open http://127.0.0.1:8000/ (or http://127.0.0.1:8000/demo/ for the demo).
