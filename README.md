@@ -4,6 +4,8 @@
 
 A simple and interactive **To-Do List web application** built with Django. Users can sign up, log in, add tasks, mark them as complete, and delete them. A **public demo mode** allows visitors to try the app without creating an account.
 
+**🌐 Live demo:** [django-todo-xvec.onrender.com](https://django-todo-xvec.onrender.com) · [Try the demo page](https://django-todo-xvec.onrender.com/demo/) *(free hosting: the first load can take up to a minute while the server wakes up)*
+
 ![Demo page](screenshots/demo.png)
 
 ---
@@ -23,7 +25,7 @@ A simple and interactive **To-Do List web application** built with Django. Users
 
 ## Demo
 
-- Run the app locally (see below) and open http://127.0.0.1:8000/demo/ to try it without an account.
+- Open the [live demo page](https://django-todo-xvec.onrender.com/demo/) to try the app without an account, or run it locally (see below).
 - Sign up to create and manage your own tasks.
 
 <p align="center"><img src="screenshots/demo-mobile.png" alt="Demo page on a phone" width="300" /></p>
