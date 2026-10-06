@@ -12,3 +12,7 @@ todo_project/venv/
 
 # macOS
 .DS_Store
+
+# Django
+db.sqlite3
+staticfiles/

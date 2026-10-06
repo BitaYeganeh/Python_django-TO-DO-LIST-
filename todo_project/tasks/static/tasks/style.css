@@ -68,6 +68,11 @@ position: relative;       /* normal flow */
 .demo-link a:hover {
   background-color: #d35400;
 }
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .container {
   position: relative;
   max-width: 800px;
@@ -220,26 +225,38 @@ ul {
   background-color: #27ae60;
 }
 
-/* Responsive design */
+/* =========================
+   MOBILE VIEW (Tablets & Phones)
+========================= */
 @media (max-width: 768px) {
-  /* auth bar */
+
+  /* Auth bar */
   .auth-bar {
-    position: static;              /* stop fixed overlay */
+    position: static;
     margin: 15px auto;
-    width: fit-content;
+    width: 90%;
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
     font-size: 14px;
-  } 
+    padding: 8px;
+  }
+
+  /* Demo buttons */
   .demo-link {
-    position: static;
-    margin: 10px auto 0;
-    text-align: center; 
-   }
-   /* Main container */
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .demo-link a {
+    width: 90%;
+    text-align: center;
+  }
+
+  /* Main container */
   .container {
-    margin: 30px 10px;
+    margin: 20px 10px;
     padding: 20px 15px;
   }
 
@@ -253,18 +270,20 @@ ul {
   }
 
   form input[type="text"] {
+    width: 100%;
     font-size: 14px;
   }
-   form button {
-    width: 50%;
+
+  form button {
+    width: 100%;
     align-self: stretch;
   }
 
   /* Task items */
   .task-item {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+    align-items: stretch;
+    gap: 10px;
   }
 
   .task-item span {
@@ -272,31 +291,38 @@ ul {
     width: 100%;
     word-break: break-word;
   }
-   /* Buttons */
+
+  /* Buttons inside task */
   .task-item div {
     width: 100%;
-    justify-content: space-between;
+    display: flex;
+    gap: 8px;
   }
 
   .task-item a {
     flex: 1;
     text-align: center;
     font-size: 13px;
-    padding: 6px 8px;
+    padding: 8px;
   }
 }
-/* Extra small screens */
+
+/* =========================
+   EXTRA SMALL PHONES
+========================= */
 @media (max-width: 400px) {
+
   h1 {
     font-size: 20px;
   }
 
   .auth-bar {
     font-size: 13px;
-    padding: 6px 10px;
+    padding: 6px;
   }
 
   .task-item a {
     font-size: 12px;
+    padding: 6px;
   }
-}
+}n
