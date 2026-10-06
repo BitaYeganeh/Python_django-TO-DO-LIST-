@@ -26,13 +26,6 @@ A simple and interactive **To-Do List web application** built with Django. Users
 
 ---
 
-## Screenshots
-
-![Task List](screenshots/task_list.png)  
-![Demo Page](screenshots/demo_page.png)
-
----
-
 ## Testing
 
 22 automated tests (Django `TestCase`) run on every push with GitHub Actions.
@@ -45,13 +38,6 @@ A simple and interactive **To-Do List web application** built with Django. Users
 | Tasks | Add, complete (toggle) and delete; empty titles are not saved |
 | Security | Users only see and change their own tasks (others get 404); the demo account and visitors cannot edit |
 | Demo mode | Visitors see demo tasks; the site still works when no demo user exists |
-
-### Bugs found and fixed through testing
-
-| Bug | Fix |
-| --- | --- |
-| Complete and Delete worked through plain links (GET), so opening a URL could delete a task | Both views now accept POST only (`@require_POST`); the buttons are small forms with a CSRF token |
-| The home page and demo page crashed (500 error) on a fresh database without `demo_user` | Demo tasks are now looked up with a filter, so the page shows an empty list instead of crashing |
 
 ### Run it locally
 
