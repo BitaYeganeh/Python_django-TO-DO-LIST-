@@ -4,6 +4,8 @@
 
 A simple and interactive **To-Do List web application** built with Django. Users can sign up, log in, add tasks, mark them as complete, and delete them. A **public demo mode** allows visitors to try the app without creating an account.
 
+![Demo page](screenshots/demo.png)
+
 ---
 
 ## Features
@@ -21,14 +23,16 @@ A simple and interactive **To-Do List web application** built with Django. Users
 
 ## Demo
 
-- Visit the [Demo Page](http://127.0.0.1:8000/demo/) to try the app without an account.
+- Run the app locally (see below) and open http://127.0.0.1:8000/demo/ to try it without an account.
 - Sign up to create and manage your own tasks.
+
+<p align="center"><img src="screenshots/demo-mobile.png" alt="Demo page on a phone" width="300" /></p>
 
 ---
 
 ## Testing
 
-22 automated tests (Django `TestCase`) run on every push with GitHub Actions.
+22 automated tests (Django `TestCase`) run on every push with GitHub Actions. The tests are in [`todo_project/tasks/tests.py`](todo_project/tasks/tests.py) and the workflow in [`.github/workflows/tests.yml`](.github/workflows/tests.yml).
 
 | Area | What is checked |
 | --- | --- |
